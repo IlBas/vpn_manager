@@ -1,0 +1,590 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Configuration;
+using System.Windows.Forms;
+using CoreInterface;
+using Core;
+using VpnManagerDAL.DTO;
+using Security;
+using System.Data.SqlClient;
+using FileTransferTest;
+
+
+
+namespace VpnManager
+{
+    public delegate void InternalEvent(string ConnectionInfo,bool test);
+    public delegate void AddListBoxItemDelegate(object item);
+    public partial class Main : DevComponents.DotNetBar.Office2007Form  , ISurface
+    {
+     
+        public event StartConnection OnConnection;
+        public event StartConnectionClient OnClientConnection;
+        public event Disconnect OnDisconnection;
+       // private event InternalEvent ConnectionChanged;
+        private Controller _controller;
+        private int SelectedNodeConnection;
+        private string ComputerName;
+        Panel pnl = new Panel();
+        private bool connected = false;
+      //  Logger logger = LogManager.GetLogger("Form");
+        public Main()
+        {
+            InitializeComponent();
+            
+            WriteLine("Start Programm....." , false);
+            WriteLine("Loading Controller.......", false);
+            _controller = new Controller(this);
+            LoadList();
+            Security.LoggedUser.Autanticated += new OnUserAutanticated(UserLogged);
+            Security.LoggedUser.Disconnected += new OnUserDisconnected(UserDisconnected);
+            lstClient.DoubleClick += new EventHandler(lstClient_DoubleClick);
+            lblComputerName.Text = _controller.GetComputerName;
+            //Security.Login login = new Security.Login();
+            //login.ShowDialog();
+           // ConnectionChanged = new InternalEvent(WriteInfo);
+            //SqlDbType. sqlconn = new SqlConnection(ConfigurationSettings.AppSettings["SecurityDb"].ToString());
+            //sqlconn.Open();
+           
+          
+        }
+        private void LoadList()
+        {
+            if (treeClienti.Nodes[0].Nodes.Count > 0)
+                treeClienti.Nodes[0].Nodes.Clear();
+
+            foreach (PlantDTO client in _controller.GetCLient.Values.OrderBy(o => o.Name))
+            {
+                DevComponents.AdvTree.Node node = new DevComponents.AdvTree.Node();
+                node.Text = client.Name;
+                node.Image = Properties.Resources.Modem_icon;
+                node.Tag = client.Id;
+                node.Editable = false;
+                node.DragDropEnabled = false;
+                node.Tooltip = String.Format("Right Click -> Connect to start the connection with {0}", client.Name);
+                treeClienti.Nodes[0].Nodes.Add(node);
+             
+
+            }
+        }
+
+        private void UserLogged(string s)
+        {
+            lblLoggedUser.Text = string.Format("Logged User : {0}", s);
+            loginToolStripMenuItem.Enabled = false;
+            disconnectToolStripMenuItem.Enabled = true;
+            WriteInfo(string.Format("Logged User : {0}" , s), false);
+        }
+
+        private void UserDisconnected(string s)
+        {
+            lblLoggedUser.Text = "No user Logged";
+            loginToolStripMenuItem.Enabled = true;
+            disconnectToolStripMenuItem.Enabled = false;
+            WriteInfo("User Disconneted", false);
+        }
+
+        public void WriteInfo(string s , bool error)
+        {
+            WriteLine(s, error);
+
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+        private void metroShell1_Resize(object sender, EventArgs e)
+        {
+        }
+
+        private void buttonItem1_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void treeClienti_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                if (treeClienti.SelectedNode == null)
+                    mnuTree.Close();
+            }
+        }
+
+        private void treeClienti_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                if (treeClienti.SelectedNode == null)
+                    mnuTree.Close();
+            }
+        }
+
+        private void treeClienti_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                if (treeClienti.SelectedNode == null)
+                    mnuTree.Close();
+                else
+                    mnuTree.Items[0].Text = String.Format("Connect To {0}", treeClienti.SelectedNode.Text);
+
+                if (connected)
+                    disconnettiToolStripMenuItem.Enabled = true;
+                else
+                    disconnettiToolStripMenuItem.Enabled = false;
+            }
+
+        }
+
+        private void treeClienti_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void WriteLine(string text , bool errore)
+        {
+            //logger.Trace(text);
+            lstConsole.Items.Add(string.Format("{0} || {1}" , DateTime.Now.ToString("dd/MM/yyyy HH:mm") , text));
+            lstConsole.SelectedIndex = lstConsole.Items.Count - 1;
+            if (errore)
+                MessageBox.Show(text);
+            
+        }
+
+        private void cmdConnect_Click(object sender, EventArgs e)
+        {
+            SelectedNodeConnection =treeClienti.SelectedIndex;
+            if (_controller.ByPassMSAutantication || LoggedUser.CheckMembership("VPN"))
+            {
+                if (OnConnection != null)
+                    OnConnection(Convert.ToInt32(treeClienti.SelectedNode.Tag));
+            }
+        }
+
+        private void visualizzaVersioneAssemblyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+          
+            AssemblyInfo asinfo = new AssemblyInfo();
+            asinfo.Show();                
+        }
+
+        #region InputDialog   
+        public static DialogResult InputBox(string title, string promptText, ref string value)
+        {
+            Form form = new Form();
+            Label label = new Label();
+            TextBox textBox = new TextBox();
+            Button buttonOk = new Button();
+            Button buttonCancel = new Button();
+
+            form.Text = title;
+            label.Text = promptText;
+            textBox.Text = value;
+
+            buttonOk.Text = "OK";
+            buttonCancel.Text = "Cancel";
+            buttonOk.DialogResult = DialogResult.OK;
+            buttonCancel.DialogResult = DialogResult.Cancel;
+
+            label.SetBounds(9, 20, 372, 13);
+            textBox.SetBounds(12, 36, 372, 20);
+            buttonOk.SetBounds(228, 72, 75, 23);
+            textBox.PasswordChar = Char.Parse("*");
+            buttonCancel.SetBounds(309, 72, 75, 23);
+
+            label.AutoSize = true;
+            textBox.Anchor = textBox.Anchor | AnchorStyles.Right;
+            buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+
+            form.ClientSize = new Size(396, 107);
+            form.Controls.AddRange(new Control[] { label, textBox, buttonOk, buttonCancel });
+            form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
+            form.FormBorderStyle = FormBorderStyle.FixedDialog;
+            form.StartPosition = FormStartPosition.CenterScreen;
+            form.MinimizeBox = false;
+            form.MaximizeBox = false;
+            form.AcceptButton = buttonOk;
+            form.CancelButton = buttonCancel;
+
+            DialogResult dialogResult = form.ShowDialog();
+            value = textBox.Text;
+            return dialogResult;
+        }
+        #endregion
+
+        private void treeClienti_SelectedValueChanged(object sender, EventArgs e)
+        {
+          
+        }
+
+        private void nodeParent_NodeMouseUp(object sender, MouseEventArgs e)
+        {
+            mnuTree.Close();
+        }
+
+        private void lstClient_DoubleClick(object sender, EventArgs e)
+        {
+            if (lstClient.SelectedItems != null)
+            {
+                if (_controller.ByPassMSAutantication || LoggedUser.CheckMembership("VPN"))
+                {
+                    if (OnClientConnection != null)
+                        OnClientConnection(Convert.ToInt32(lstClient.SelectedItems[0].Tag));
+                }
+                else
+                {
+                    MessageBox.Show("User Not Allowed!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+
+                }
+            }
+        }
+
+        private void disconnettiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (OnDisconnection != null)
+                OnDisconnection();
+        }
+
+        private void treeClienti_NodeClick(object sender, DevComponents.AdvTree.TreeNodeMouseEventArgs e)
+        {
+            try
+            {
+
+
+                List<MachineDTO> Info = null;
+                if (treeClienti.SelectedNode.Tag != null)
+                {
+                    Info = _controller.GetCLient[Convert.ToInt32(treeClienti.SelectedNode.Tag)].Machines.ToList(); //VpnManagerDAL.VpnManagerDal.GetMachinesByPlant(Convert.ToInt32(treeClienti.SelectedNode.Tag));
+                    if (lstClient.Items.Count > 0)
+                        lstClient.Items.Clear();
+
+                    ExtensionObjectDTO ext = VpnManagerDAL.VpnManagerDal.GetExtensionObject(_controller.GetCLient[Convert.ToInt32(treeClienti.SelectedNode.Tag)].Id, TargetTable.Plant, "Note");
+                    if (ext != null && !string.IsNullOrEmpty(ext.Value))
+                    {
+                        txtNote.Text = ext.Value;
+                    }
+                    else txtNote.Text = string.Empty; //reset info previously charged
+
+                }
+                if (Info != null && connected)
+                {
+                    foreach (MachineDTO infomachine in Info)
+                    {
+                        string[] temp = new string[2];
+
+                        temp[0] = infomachine.Name;
+                        temp[1] = infomachine.IPAddress.ToString();
+                        ListViewItem lst = new ListViewItem(temp);
+
+                        // ConnectionTypeDTO conntype = VpnManagerDAL.VpnManagerDal.GetConnectionTypes().Where(f => f.Id == infomachine.IdPreferredConnectionType).FirstOrDefault();
+                        lst.Tag = infomachine.Id;
+                        lst.ToolTipText = string.Format(@"User : {0} Password : {1}", infomachine.Username, infomachine.Password);
+                        //if (conntype.Extensions.Keys.Contains("ico"))
+                        //{
+                        //    Image img = (Image)Properties.Resources.vnc;
+                        //    lst.ImageList.Images.Add(from r)
+                        //}
+                        lstClient.Items.Add(lst);
+
+                    }
+
+                }
+                if (treeClienti.SelectedNode.Tag != null)
+                    plantDTOBindingSource.DataSource = _controller.GetCLient[Convert.ToInt32(treeClienti.SelectedNode.Tag)];
+            }
+            catch(Exception d)
+            {
+
+                WriteInfo(d.Message,true);
+            }
+        }
+
+        private void lstClient_MouseHover(object sender, EventArgs e)
+        {
+            if (lstClient.SelectedItems.Count> 0)
+            {
+                MachineDTO machine = VpnManagerDAL.VpnManagerDal.GetMachine(Convert.ToInt32(lstClient.SelectedItems[0].Tag));
+                string text = string.Format(@"User : {0} \n
+                                           Password : {1} \n", machine.Username, machine.Password);
+                toolInfoMachine.Show(text, lstClient);
+            }
+        }
+
+        private void lstClient_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            if (connected)
+                machineDTOBindingSource.DataSource= VpnManagerDAL.VpnManagerDal.GetMachine(Convert.ToInt32(lstClient.SelectedItems[0].Tag));
+        }
+
+        private void txtRicerca_KeyUp(object sender, KeyEventArgs e)
+        {
+         //   int index = (treeClienti.Nodes.Find(txtRicerca.Text, true).FirstOrDefault()) as DevComponents.AdvTree.Node).Index;
+            //treeClienti.SelectedIndex = index;
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = connected;
+          //  _controller.DestroyAllClass();
+            _controller = null;
+        }
+
+        private void nuovaConnessioneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+          
+            if (_controller.ByPassMSAutantication || LoggedUser.CheckMembership("H24"))
+            {
+                AddConnection add = new AddConnection();
+                add.ShowDialog();
+                _controller.ReloadAll();
+                LoadList();
+            }
+
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_controller.ByPassMSAutantication || LoggedUser.CheckMembership("H24"))
+            {
+                AddConnection cn = new AddConnection((int)treeClienti.SelectedNode.Tag);
+                cn.ShowDialog();
+                _controller.ReloadAll();
+                LoadList();
+            }
+            
+
+        }
+
+        private void manageExtensionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_controller.ByPassMSAutantication || LoggedUser.CheckMembership("H24"))
+            {
+                Extension ex = new Extension();
+                ex.ShowDialog();
+            }
+        }
+
+
+
+
+        private void WriteConnection(string StringTowrite , bool spare)
+        {
+
+        }
+
+        public void ChangeConnectionStatus(eConnectionState State)
+        {
+            switch (State)
+            {
+                case eConnectionState.Connected:
+
+                    AddListBoxItem("Connected");
+                    break;
+                case eConnectionState.Disconnected:
+                    AddListBoxItem("Disconneted");
+                    break;                       
+
+            }
+
+        }
+
+        private void AddListBoxItem(object item)
+        {
+            if (this.lstConsole.InvokeRequired)
+            {
+                // This is a worker thread so delegate the task.
+                this.lstConsole.Invoke(new AddListBoxItemDelegate(this.AddListBoxItem), item);
+            }
+            else
+            {
+                // This is the UI thread so perform the task.
+                WriteInfo((string)item , false);
+                lblStatus.Text = (string)item;
+
+                if ((string)item == "Connected")
+                {
+                    lblStatus.Image = Properties.Resources.locked;
+                    foreach (DevComponents.AdvTree.Node node in treeClienti.Nodes[0].Nodes)
+                        if (node.Index != (SelectedNodeConnection - 1))
+                            node.Visible = false;
+
+                    connected = true;
+                   //treeClienti.Nodes[0].Nodes[SelectedNodeConnection].Style = DevComponents.AdvTree.NodeStyles.Red;
+                }
+                else
+                {
+                    foreach (DevComponents.AdvTree.Node node in treeClienti.Nodes[0].Nodes)                       
+                        node.Visible = true;
+
+                    treeClienti.SelectedNode.Style = null;
+                    lblStatus.Image = Properties.Resources.unlocked;
+                    connected = false;
+                  
+                }
+
+            }
+        }
+
+        private void lstClient_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void loginToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Security.LoggedUser.Connect();
+        }
+
+        private void disconnectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Security.LoggedUser.Disconnect() ;
+        }
+
+        private void openClientToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FileTransferTest.Client frm = new FileTransferTest.Client(false);
+            frm.ShowDialog();
+
+        }
+
+        private void mnuTree_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void txtSearchClient_Enter(object sender, EventArgs e)
+        {
+          
+         //  GrayedText = textBox1.Text; // Stores old text value if you want
+            txtSearchClient.Text = ""; // Clears the text field
+            txtSearchClient.ForeColor = Color.Black;
+            txtSearchClient.ReadOnly = false; // Makes the field editable
+        
+        }
+
+        private void txtSearchClient_Leave(object sender, EventArgs e)
+        {
+            if (txtSearchClient.Text == "")
+            {
+                txtSearchClient.ForeColor = Color.Gray;
+                txtSearchClient.Text = "Enter Client Name";
+                
+            }
+        }
+
+        private void txtSearchClient_TextChanged(object sender, EventArgs e)
+        {
+
+
+            if (txtSearchClient.Text != string.Empty && txtSearchClient.ForeColor != Color.Gray )
+            {
+                treeClienti.Nodes[0].Nodes.Clear();
+               var  temp = _controller.GetCLient.Values.Where(x => x.Name.ToUpper().Contains(txtSearchClient.Text.ToUpper())).OrderBy(o => o.Name);
+               IEnumerable <PlantDTO> list = (temp.ToList() as IEnumerable<PlantDTO>);
+              foreach (PlantDTO client in list)
+                {
+                    DevComponents.AdvTree.Node node = new DevComponents.AdvTree.Node();
+                    node.Text = client.Name;
+                    node.Image = Properties.Resources.Modem_icon;
+                    node.Tag = client.Id;
+                    node.Editable = false;
+                    node.DragDropEnabled = false;
+                    node.Tooltip = String.Format("Right Click -> Connect to start the connection with {0}", client.Name);
+                    treeClienti.Nodes[0].Nodes.Add(node);
+
+
+                }
+            }
+            else
+            {
+                treeClienti.Nodes[0].Nodes.Clear();
+                foreach (PlantDTO client in _controller.GetCLient.Values.OrderBy(o => o.Name))
+                {
+                    DevComponents.AdvTree.Node node = new DevComponents.AdvTree.Node();
+                    node.Text = client.Name;
+                    node.Image = Properties.Resources.Modem_icon;
+                    node.Tag = client.Id;
+                    node.Editable = false;
+                    node.DragDropEnabled = false;
+                    node.Tooltip = String.Format("Right Click -> Connect to start the connection with {0}", client.Name);
+                    treeClienti.Nodes[0].Nodes.Add(node);
+
+
+                }
+            }
+        }
+
+        private void txtNote_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtNote_DoubleClick(object sender, EventArgs e)
+        {
+            
+            pnl.Width = this.Width;
+            pnl.Height = this.Height;
+            TextBox txt = new TextBox();
+            txt.Multiline = true;
+            txt.Height = this.Height;
+            txt.Width = this.Width;
+            pnl.Controls.Add(txt);
+            txt.ReadOnly = true;
+            txt.ScrollBars = ScrollBars.Both;
+            txt.Text = txtNote.Text;
+            this.Controls.Add(pnl);
+            pnl.Visible = true;
+            txt.DoubleClick += new System.EventHandler(CloseControl);
+        }
+
+
+
+        private void CloseControl(object sender, EventArgs e)
+        {
+
+            pnl.Controls.Clear();
+            pnl.Visible = false;
+            pnl = null;
+
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            About ab = new About();
+            ab.Show();
+        }
+
+        private void lstClient_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+    }
+
+}

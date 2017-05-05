@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using VpnManager.Interface;
+using CoreInterface;
+
+namespace VpnManager.Core
+{
+    public delegate void InfoFromCore(string s);
+    public class Controller 
+    {
+        public InfoFromCore OnInfoFromCore;
+        public Controller(Form1 frm)
+        {
+            frm.OnConnection = new StartConnection(Connect);
+            OnInfoFromCore = new InfoFromCore(frm.WriteInfo);
+            if (OnInfoFromCore != null)
+                OnInfoFromCore("Caricamento Core Completato!");
+        }
+        private void Connect(string Info)
+        {
+
+        }
+
+    
+    }
+}

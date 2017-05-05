@@ -1,0 +1,482 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="VpnManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityType Name="ConnectionType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Id_Sap" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExtensionObjects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TargetTableName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdTargetElement" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Value" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="LogConenction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_ConnectionPlant" Type="bigint" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastConenctionTime" Type="datetime" Nullable="false" />
+          <Property Name="ConncetionSuccesful" Type="bit" Nullable="false" />
+          <Property Name="VirtualMachineName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Machine">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IpAddress" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PingResponseEnabled" Type="bit" />
+          <Property Name="LastSuccessfulConnection" Type="datetime" />
+          <Property Name="IdLastConnectedUser" Type="int" />
+          <Property Name="IdPlant" Type="int" Nullable="false" />
+          <Property Name="IdPreferredConnectionType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Plant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IdConnectionType" Type="int" Nullable="false" />
+          <Property Name="ServerAddress" Type="nvarchar(max)" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastSuccessfulConnection" Type="datetime" />
+          <Property Name="IdLastConnectedUser" Type="int" />
+          <Property Name="Id_Customer" Type="int" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Enabled" Type="bit" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VpnType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="WorkOnMachine" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Machine_ConnectionType">
+          <End Role="ConnectionType" Type="Self.ConnectionType" Multiplicity="1" />
+          <End Role="Machine" Type="Self.Machine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ConnectionType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Machine">
+              <PropertyRef Name="IdPreferredConnectionType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Machine_Plant">
+          <End Role="Plant" Type="Self.Plant" Multiplicity="1" />
+          <End Role="Machine" Type="Self.Machine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Machine">
+              <PropertyRef Name="IdPlant" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Plant_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Plant" Type="Self.Plant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Plant">
+              <PropertyRef Name="IdLastConnectedUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Plant_VpnType">
+          <End Role="VpnType" Type="Self.VpnType" Multiplicity="1" />
+          <End Role="Plant" Type="Self.Plant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VpnType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Plant">
+              <PropertyRef Name="IdConnectionType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="VpnManagerModelStoreContainer">
+          <EntitySet Name="ConnectionType" EntityType="Self.ConnectionType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExtensionObjects" EntityType="Self.ExtensionObjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LogConenction" EntityType="Self.LogConenction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Machine" EntityType="Self.Machine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Plant" EntityType="Self.Plant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VpnType" EntityType="Self.VpnType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Machine_ConnectionType" Association="Self.FK_Machine_ConnectionType">
+            <End Role="ConnectionType" EntitySet="ConnectionType" />
+            <End Role="Machine" EntitySet="Machine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Machine_Plant" Association="Self.FK_Machine_Plant">
+            <End Role="Plant" EntitySet="Plant" />
+            <End Role="Machine" EntitySet="Machine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Plant_User" Association="Self.FK_Plant_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Plant" EntitySet="Plant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Plant_VpnType" Association="Self.FK_Plant_VpnType">
+            <End Role="VpnType" EntitySet="VpnType" />
+            <End Role="Plant" EntitySet="Plant" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="VpnManagerModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="VpnManagerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customer" EntityType="VpnManagerModel.Customer" />
+          <EntitySet Name="Machine" EntityType="VpnManagerModel.Machine" />
+          <EntitySet Name="Plant" EntityType="VpnManagerModel.Plant" />
+          <EntitySet Name="User" EntityType="VpnManagerModel.User" />
+          <AssociationSet Name="FK_Machine_Plant" Association="VpnManagerModel.FK_Machine_Plant">
+            <End Role="Plant" EntitySet="Plant" />
+            <End Role="Machine" EntitySet="Machine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Plant_User" Association="VpnManagerModel.FK_Plant_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Plant" EntitySet="Plant" />
+          </AssociationSet>
+          <EntitySet Name="VpnType" EntityType="VpnManagerModel.VpnType" />
+          <AssociationSet Name="FK_Plant_VpnType" Association="VpnManagerModel.FK_Plant_VpnType">
+            <End Role="VpnType" EntitySet="VpnType" />
+            <End Role="Plant" EntitySet="Plant" />
+          </AssociationSet>
+          <EntitySet Name="ConnectionType" EntityType="VpnManagerModel.ConnectionType" />
+          <AssociationSet Name="FK_Machine_ConnectionType" Association="VpnManagerModel.FK_Machine_ConnectionType">
+            <End Role="ConnectionType" EntitySet="ConnectionType" />
+            <End Role="Machine" EntitySet="Machine" />
+          </AssociationSet>
+          <EntitySet Name="ExtensionObjects" EntityType="VpnManagerModel.ExtensionObjects" />
+          <EntitySet Name="LogConenction" EntityType="VpnManagerModel.LogConenction" />
+        </EntityContainer>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Id_Sap" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Machine">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="IpAddress" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="PingResponseEnabled" Type="Boolean" />
+          <Property Name="LastSuccessfulConnection" Type="DateTime" Precision="3" />
+          <Property Name="IdLastConnectedUser" Type="Int32" />
+          <Property Name="IdPlant" Type="Int32" Nullable="false" />
+          <Property Name="IdPreferredConnectionType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Plant" Relationship="VpnManagerModel.FK_Machine_Plant" FromRole="Machine" ToRole="Plant" />
+          <NavigationProperty Name="ConnectionType" Relationship="VpnManagerModel.FK_Machine_ConnectionType" FromRole="Machine" ToRole="ConnectionType" />
+        </EntityType>
+        <EntityType Name="Plant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="IdConnectionType" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="LastSuccessfulConnection" Type="DateTime" Precision="3" />
+          <Property Name="IdLastConnectedUser" Type="Int32" />
+          <NavigationProperty Name="Machine" Relationship="VpnManagerModel.FK_Machine_Plant" FromRole="Plant" ToRole="Machine" />
+          <NavigationProperty Name="User" Relationship="VpnManagerModel.FK_Plant_User" FromRole="Plant" ToRole="User" />
+          <Property Type="String" Name="ServerAddress" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="VpnType" Relationship="VpnManagerModel.FK_Plant_VpnType" FromRole="Plant" ToRole="VpnType" />
+          <Property Name="Id_Customer" Type="Int32" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Enabled" Type="Boolean" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Plant" Relationship="VpnManagerModel.FK_Plant_User" FromRole="User" ToRole="Plant" />
+        </EntityType>
+        <Association Name="FK_Machine_Plant">
+          <End Role="Plant" Type="VpnManagerModel.Plant" Multiplicity="1" />
+          <End Role="Machine" Type="VpnManagerModel.Machine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Machine">
+              <PropertyRef Name="IdPlant" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Plant_User">
+          <End Role="User" Type="VpnManagerModel.User" Multiplicity="0..1" />
+          <End Role="Plant" Type="VpnManagerModel.Plant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Plant">
+              <PropertyRef Name="IdLastConnectedUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VpnType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Plant" Relationship="VpnManagerModel.FK_Plant_VpnType" FromRole="VpnType" ToRole="Plant" />
+          <Property Name="WorkOnMachine" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Plant_VpnType">
+          <End Type="VpnManagerModel.VpnType" Role="VpnType" Multiplicity="1" />
+          <End Type="VpnManagerModel.Plant" Role="Plant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VpnType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Plant">
+              <PropertyRef Name="IdConnectionType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ConnectionType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Machine" Relationship="VpnManagerModel.FK_Machine_ConnectionType" FromRole="ConnectionType" ToRole="Machine" />
+        </EntityType>
+        <Association Name="FK_Machine_ConnectionType">
+          <End Type="VpnManagerModel.ConnectionType" Role="ConnectionType" Multiplicity="1" />
+          <End Type="VpnManagerModel.Machine" Role="Machine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ConnectionType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Machine">
+              <PropertyRef Name="IdPreferredConnectionType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ExtensionObjects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="TargetTableName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="IdTargetElement" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Value" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="LogConenction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_ConnectionPlant" Type="Int64" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastConenctionTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ConncetionSuccesful" Type="Boolean" Nullable="false" />
+          <Property Name="VirtualMachineName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="VpnManagerModelStoreContainer" CdmEntityContainer="VpnManagerEntities">
+          <EntitySetMapping Name="Customer">
+            <EntityTypeMapping TypeName="VpnManagerModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Id_Sap" ColumnName="Id_Sap" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Machine">
+            <EntityTypeMapping TypeName="VpnManagerModel.Machine">
+              <MappingFragment StoreEntitySet="Machine">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IpAddress" ColumnName="IpAddress" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PingResponseEnabled" ColumnName="PingResponseEnabled" />
+                <ScalarProperty Name="LastSuccessfulConnection" ColumnName="LastSuccessfulConnection" />
+                <ScalarProperty Name="IdLastConnectedUser" ColumnName="IdLastConnectedUser" />
+                <ScalarProperty Name="IdPlant" ColumnName="IdPlant" />
+                <ScalarProperty Name="IdPreferredConnectionType" ColumnName="IdPreferredConnectionType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Plant">
+            <EntityTypeMapping TypeName="VpnManagerModel.Plant">
+              <MappingFragment StoreEntitySet="Plant">
+                <ScalarProperty Name="Id_Customer" ColumnName="Id_Customer" />
+                <ScalarProperty Name="ServerAddress" ColumnName="ServerAddress" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IdConnectionType" ColumnName="IdConnectionType" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LastSuccessfulConnection" ColumnName="LastSuccessfulConnection" />
+                <ScalarProperty Name="IdLastConnectedUser" ColumnName="IdLastConnectedUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="VpnManagerModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VpnType">
+            <EntityTypeMapping TypeName="VpnManagerModel.VpnType">
+              <MappingFragment StoreEntitySet="VpnType">
+                <ScalarProperty Name="WorkOnMachine" ColumnName="WorkOnMachine" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConnectionType">
+            <EntityTypeMapping TypeName="VpnManagerModel.ConnectionType">
+              <MappingFragment StoreEntitySet="ConnectionType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExtensionObjects">
+            <EntityTypeMapping TypeName="VpnManagerModel.ExtensionObjects">
+              <MappingFragment StoreEntitySet="ExtensionObjects">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IdTargetElement" ColumnName="IdTargetElement" />
+                <ScalarProperty Name="TargetTableName" ColumnName="TargetTableName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogConenction">
+            <EntityTypeMapping TypeName="VpnManagerModel.LogConenction">
+              <MappingFragment StoreEntitySet="LogConenction">
+                <ScalarProperty Name="VirtualMachineName" ColumnName="VirtualMachineName" />
+                <ScalarProperty Name="ConncetionSuccesful" ColumnName="ConncetionSuccesful" />
+                <ScalarProperty Name="LastConenctionTime" ColumnName="LastConenctionTime" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id_ConnectionPlant" ColumnName="Id_ConnectionPlant" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="VpnManagerEntity" ZoomLevel="62">
+        <EntityTypeShape EntityType="VpnManagerModel.Customer" Width="1.5" PointX="7.75" PointY="3.375" Height="1.4033821614583335" IsExpanded="true" />
+        <EntityTypeShape EntityType="VpnManagerModel.Machine" Width="1.5" PointX="5.25" PointY="1" Height="3.3263964843749996" IsExpanded="true" />
+        <EntityTypeShape EntityType="VpnManagerModel.Plant" Width="1.5" PointX="3" PointY="1.125" Height="2.9417936197916656" IsExpanded="true" />
+        <EntityTypeShape EntityType="VpnManagerModel.User" Width="1.5" PointX="0.75" PointY="1.625" Height="1.9802864583333335" IsExpanded="true" />
+        <AssociationConnector Association="VpnManagerModel.FK_Machine_Plant" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="2.6920475260416659" />
+          <ConnectorPoint PointX="5.25" PointY="2.6920475260416659" />
+        </AssociationConnector>
+        <AssociationConnector Association="VpnManagerModel.FK_Plant_User" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="2.6151432291666667" />
+          <ConnectorPoint PointX="3" PointY="2.6151432291666667" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="VpnManagerModel.VpnType" Width="1.5" PointX="0.75" PointY="8.875" Height="1.5956835937499996" />
+        <AssociationConnector Association="VpnManagerModel.FK_Plant_VpnType" >
+          <ConnectorPoint PointX="2.25" PointY="9.672841796875" />
+          <ConnectorPoint PointX="3.75" PointY="9.672841796875" />
+          <ConnectorPoint PointX="3.75" PointY="4.2590950520833326" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="VpnManagerModel.ConnectionType" Width="1.5" PointX="0.75" PointY="5.875" Height="1.5956835937499996" />
+        <AssociationConnector Association="VpnManagerModel.FK_Machine_ConnectionType" >
+          <ConnectorPoint PointX="2.25" PointY="7.3432828776041665" />
+          <ConnectorPoint PointX="3.6666666666666665" PointY="7.3432828776041656" />
+          <ConnectorPoint PointX="3.8333333333333335" PointY="7.3432828776041665" />
+          <ConnectorPoint PointX="5.46875" PointY="7.3432828776041665" />
+          <ConnectorPoint PointX="5.46875" PointY="4.326396484375" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="VpnManagerModel.ExtensionObjects" Width="1.5" PointX="7.375" PointY="0.75" Height="1.9802864583333317" />
+        <EntityTypeShape EntityType="VpnManagerModel.LogConenction" Width="1.5" PointX="4.875" PointY="6.875" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

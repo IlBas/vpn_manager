@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<configuration>
+  <configSections>
+    <sectionGroup name="userSettings" type="System.Configuration.UserSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <section name="VpnManager.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false" />
+    </sectionGroup>
+  </configSections>
+  <userSettings>
+    <VpnManager.Properties.Settings>
+      <setting name="PasswordAdmin" serializeAs="String">
+        <value>34er56TY</value>
+      </setting>
+      <setting name="VirtualMachine" serializeAs="String">
+        <value>1</value>
+      </setting>
+    </VpnManager.Properties.Settings>
+  </userSettings>
+  <connectionStrings>
+    <add name="VpnManagerEntities" connectionString="metadata=res://*/VpnManagerEntity.csdl|res://*/VpnManagerEntity.ssdl|res://*/VpnManagerEntity.msl;provider=System.Data.SqlClient;provider connection string=&quot;Data Source=172.24.10.71\sqlexpress2008r2;Initial Catalog=VPN_MANAGER;Persist Security Info=True;User ID=sa;Password=StandardE80;MultipleActiveResultSets=True&quot;" providerName="System.Data.EntityClient" />
+  </connectionStrings>
+  <appSettings>
+    <add key="FilesLocation" value="C:\\h24ConnectionManager\\" />
+    <add key="Domain" value="elettric80" />
+    <add key="Server" value="LDAP://elettric80.lan" />
+    <add key="SecurityDb" value="Data Source=E:\Projects\Vpn\VpnManager\Security\DbSecurity\Security.sdf;Persist Security Info=True" />
+    <add key="ShareFolder" value="C:\Temp" />
+    <add key="ClientSettingsProvider.ServiceUri" value="" />
+  </appSettings>
+  <startup>
+    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.0" />
+  </startup>
+  <system.web>
+    <membership defaultProvider="ClientAuthenticationMembershipProvider">
+      <providers>
+        <add name="ClientAuthenticationMembershipProvider" type="System.Web.ClientServices.Providers.ClientFormsAuthenticationMembershipProvider, System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" serviceUri="" />
+      </providers>
+    </membership>
+    <roleManager defaultProvider="ClientRoleProvider" enabled="true">
+      <providers>
+        <add name="ClientRoleProvider" type="System.Web.ClientServices.Providers.ClientRoleProvider, System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" serviceUri="" cacheTimeout="86400" />
+      </providers>
+    </roleManager>
+  </system.web>
+</configuration>
