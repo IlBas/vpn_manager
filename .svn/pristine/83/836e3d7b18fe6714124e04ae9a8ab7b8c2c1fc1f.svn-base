@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<configuration>
-  <connectionStrings>
-    <add name="VpnManagerEntities" connectionString="metadata=res://*/VpnManagerEntity.csdl|res://*/VpnManagerEntity.ssdl|res://*/VpnManagerEntity.msl;provider=System.Data.SqlClient;provider connection string=&quot;Data Source=.\SQLEXPRESS;Initial Catalog=VPN_MANAGER;Persist Security Info=True;User ID=sa;Password=StandardE80;MultipleActiveResultSets=True&quot;" providerName="System.Data.EntityClient" />
-  </connectionStrings>
-
-</configuration>
-
