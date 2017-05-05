@@ -12,7 +12,7 @@ using VpnManager.Core;
 using VpnManagerDAL;
 using Security;
 using System.Data.SqlClient;
-using FileTransferTest;
+
 
 
 
@@ -531,8 +531,8 @@ namespace VpnManager
 
         private void openClientToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FileTransferTest.Client frm = new FileTransferTest.Client(false);
-            frm.ShowDialog();
+            //FileTransferTest.Client frm = new FileTransferTest.Client(false);
+            //frm.ShowDialog();
 
         }
 

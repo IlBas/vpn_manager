@@ -31,8 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NLog">
-      <HintPath>D:\MDM\Work\cc0673_pc\Source\Master CC673\Lgv Manager\bin\NLog.dll</HintPath>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.8\lib\net40\NLog.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -55,10 +56,6 @@
       <Project>{118aff2c-3572-4d98-aa9c-c554eb7435b5}</Project>
       <Name>VpnManager.Interface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FileTransferServer\FileTransferServer.csproj">
-      <Project>{05380D54-E7FA-4C65-83DD-26CE0E074AC4}</Project>
-      <Name>FileTransferServer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Security\VpnManager.Security.csproj">
       <Project>{7aa69a2e-61e3-4a77-b48c-ce66f9db3e2f}</Project>
       <Name>VpnManager.Security</Name>
@@ -67,6 +64,9 @@
       <Project>{8d27ae81-0deb-4c0a-98b8-b2717b7cac82}</Project>
       <Name>VpnManager.DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

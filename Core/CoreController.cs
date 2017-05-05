@@ -14,7 +14,7 @@ using VpnManagerDAL.DTO;
 using VpnManagerDAL;
 using System.Threading;
 using Microsoft.Win32;
-using FileTransferServer;
+
 
 /*
  * TODO :
