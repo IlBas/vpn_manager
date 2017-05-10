@@ -285,7 +285,7 @@ namespace VpnManager.Core
             try
             {
                 //OnInfoFromCore("Core: Caricamento Assembly", true);
-                System.IO.Directory.SetCurrentDirectory(System.AppDomain.CurrentDomain.BaseDirectory);
+                System.IO.Directory.SetCurrentDirectory(System.AppDomain.CurrentDomain.BaseDirectory +"\\VPN");
                 string path = Directory.GetCurrentDirectory(); // ".";
                 //string[] files = Directory.GetFileSystemEntries(path, "*.dll");           
                 Assembly ass = Assembly.LoadFrom(AssemblyName);
@@ -300,10 +300,27 @@ namespace VpnManager.Core
                 OnInfoFromCore("Controller: Error Loading Assembly", false);
             }
         }
+
+        //private List<Type> GetLoadableTypes(this Assembly assembly)
+        //{
+        //    if (assembly == null) throw new ArgumentNullException(nameof(assembly));
+        //    try
+        //    {
+        //        return assembly.GetTypes().ToList();
+        //    }
+        //    catch (ReflectionTypeLoadException e)
+        //    {
+        //        return e.Types.Where(t => t != null).ToList();
+        //    }
+        //}
+
         private List<Type> ExamineAssembly(Assembly assembly, Type type)
         {
+
+
             List<Type> types = new List<Type>();
-            foreach (Type t in assembly.GetTypes())
+            var type1 = assembly.GetTypes();
+            foreach (Type t in type1)
             {
                 if (t.IsPublic && (t.Attributes & TypeAttributes.Abstract) == 0)
                 {
