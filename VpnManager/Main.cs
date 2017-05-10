@@ -13,9 +13,6 @@ using VpnManagerDAL;
 using Security;
 using System.Data.SqlClient;
 
-
-
-
 namespace VpnManager
 {
     public delegate void InternalEvent(string ConnectionInfo,bool test);
