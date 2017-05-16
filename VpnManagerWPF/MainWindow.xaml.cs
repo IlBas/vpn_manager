@@ -24,7 +24,7 @@ namespace VpnManagerWPF
     ///   public delegate void InternalEvent(string ConnectionInfo,bool test);
     public delegate void AddListBoxItemDelegate(object item);
     public delegate void InternalEvent(string ConnectionInfo, bool test);
-    public partial class MainWindow   : ISurface
+    public partial class MainWindow  : ISurface
     {
         private Controller _controller;
         private int SelectedNodeConnection;
@@ -75,22 +75,14 @@ namespace VpnManagerWPF
         {
             //if (treeClienti.Nodes[0].Nodes.Count > 0)
             //    treeClienti.Nodes[0].Nodes.Clear();
+          
+            
+            foreach (VpnManagerDAL.DTO.PlantDTO client in _controller.GetCLient.Values.OrderBy(o => o.Name))
+            {
 
-            //foreach (VpnManagerDAL.DTO.PlantDTO client in _controller.GetCLient.Values.OrderBy(o => o.Name))
-            //{
+                ClientList.Items.Add(client);
 
-            //    DevComponents.AdvTree.Node node = new DevComponents.AdvTree.Node();
-            //    node.Text = client.DisplayedName;
-            //    // node.Image = Properties.Resources.Modem_icon;
-            //    node.Tag = client.Id;
-            //    node.Editable = false;
-            //    node.DragDropEnabled = false;
-            //    node.NodeDoubleClick += new EventHandler(node_NodeDoubleClick); //new EventHandler(lstClient_DoubleClick);
-            //    node.Tooltip = String.Format("Right Click -> Connect to start the connection with {0}", client.Name);
-            //    treeClienti.Nodes[0].Nodes.Add(node);
-
-
-            //}
+            }
         }
     }
 }

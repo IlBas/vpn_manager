@@ -6,10 +6,29 @@
         xmlns:local="clr-namespace:VpnManagerWPF"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid" x:Class="VpnManagerWPF.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="519.874" Width="667.05">
-    <Grid>
-        <TreeView x:Name="treeView" HorizontalAlignment="Left" Width="186" Margin="10,10,0,9.874"/>
-
-
-    </Grid>
+        Title="MainWindow" Height="519.874" Width="667.05" Custom:ControlsHelper.ContentCharacterCasing="Lower">
+    <ListBox ItemsSource="{Binding}" BorderBrush="Transparent" 
+         Grid.IsSharedSizeScope="True"
+         HorizontalContentAlignment="Stretch"
+         Name="ClientList" Margin="10,0,14,0">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <DataTemplate.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="18"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                    </Style>
+                </DataTemplate.Resources>
+              
+                <Grid>
+                    <Rectangle Fill="Silver"/>
+                    <StackPanel>
+                        <TextBlock Margin="3,3,3,0"
+                         Text="{Binding Path=Name}"/>
+                      
+                    </StackPanel>
+                </Grid>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
 </Window>
