@@ -36,7 +36,7 @@ namespace CiscoVPN
         public Dictionary<string, string> Options { get; set; }
 
         #endregion
-
+        bool wait = false;
         public string gett()
         {
             return SB.ToString();
@@ -46,78 +46,82 @@ namespace CiscoVPN
 
         public void Connect()
         {
-            p = new System.Diagnostics.Process();
+            var file = "C:\\Program Files (x86)\\Cisco\\Cisco AnyConnect Secure Mobility Client\\vpncli.exe";
+            DirectoryInfo installationDir = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + "\\Cisco\\Cisco AnyConnect Secure Mobility Client");
+            if (!installationDir.Exists)
+            {
+                installationDir = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + "\\Cisco\\Cisco AnyConnect Secure Mobility Client");
+                installationDir.Refresh();
+                if (!installationDir.Exists)
+                {
+                    //installationDir = new DirectoryInfo("C:\\programmi\\Cisco Systems\\VPN CLIENT"); //32 bit systems
+                    //installationDir.Refresh();
+                    throw new Exception("Installation path of Cisco VPN Client not found");
+                }
 
-            p.StartInfo = new System.Diagnostics.ProcessStartInfo(_FolderPath);
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.RedirectStandardInput = true;
+            }
+            var host = ConnectionHost;
+            var profile = ConnectionEntry;
+            var user = User;
+            var pass = Password;     
 
-            p.StartInfo.RedirectStandardOutput = true;
+             p = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = file,
+                   Arguments = string.Format("-s"),
+                    UseShellExecute = false,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                }
+            };
+
             p.OutputDataReceived += new DataReceivedEventHandler(p_OutputDataReceived);
-            wr = new StreamWriter("C:\\temp\\loggare.txt");
+            p.ErrorDataReceived += (s, a) => SB.AppendLine(a.Data);
+
+            var procFilter = new HashSet<string>() { "vpnui", "vpncli" };
+            var existingProcs = Process.GetProcesses().Where(pr => procFilter.Contains(pr.ProcessName));
+            if (existingProcs.Any())
+            {
+                foreach (var pr in existingProcs)
+                {
+                    pr.Kill();
+                }
+            }
 
             p.Start();
-
             p.BeginOutputReadLine();
 
+            var simProfile = string.Format("{1}{0}"
+            , Environment.NewLine
+            , string.Format("connect {0}", ConnectionHost)
+     
+            );
 
-            //p.StandardInput.WriteLine("connect " + ConnectionHost);
-
-
-            //p.StandardInput.WriteLine("barilla.h24");
-
-
-
-            //activated = true;
-            //threadConnectionCheck = new Thread(new ThreadStart(checkStatus));
-            //threadConnectionCheck.Name = "CheckStatus";
-            //threadConnectionCheck.IsBackground = true;
-            //threadConnectionCheck.Start();
-
+            p.StandardInput.Write(simProfile);
+            p.StandardInput.Flush();
+            p.StandardInput.WriteLine(User);
+            p.StandardInput.Flush();
+            p.StandardInput.WriteLine(Password);
+            p.StandardInput.Flush();
         }
 
         void p_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            //SB.Append(e.Data);
-            if (e.Data.Contains("contacting"))//[U6FD]
-            {
-                p.StandardInput.WriteLine("U6FD");
-            }
+              
+            Console.WriteLine(e.Data.ToString());           
+        
 
-
-
-            //wr.WriteLine(e.Data);
-            //SB.Append(e.Data + Environment.NewLine);
-            if (e.Data.Contains("VPN>"))
-            {
-
-                p.StandardInput.WriteLine("connect " + ConnectionHost);
-            }
-            else if (e.Data.Contains("[U6FD]"))
-            {
-                p.StandardInput.WriteLine("U6FD");
-            }
-            else if (e.Data.Contains("Password:"))
-            {
-
-                p.StandardInput.WriteLine("barilla.h24");
-            }
-            else if (e.Data.Contains("Proxy User:"))
-            {
-
-                p.StandardInput.WriteLine("Escriva.R");
-            }
-            else if (e.Data.Contains("Proxy Password:"))
-            {
-
-                p.StandardInput.WriteLine("Escriva.R");
-            }
-            SB.Append(e.Data);
         }
 
         private void SortOutputHandler(object sender, DataReceivedEventArgs e)
         {
-
+            
+             
+        
+            
 
         }
 
@@ -233,18 +237,10 @@ namespace CiscoVPN
 
         public void Disconnect()
         {
-            wr.Write(SB.ToString());
-            wr.Dispose();
-            activated = false;
-            WriteFile(false);
-            p = new System.Diagnostics.Process();
-            p.StartInfo = new System.Diagnostics.ProcessStartInfo(_FolderPath);
-            p.StartInfo.UseShellExecute = false;
-            p.Start();
+            p.StandardInput.WriteLine("disconncet");
+            p.StandardInput.Flush();
             p.WaitForExit();
-
-
-            //      threadConnectionCheck.Abort();
+ 
             threadConnectionCheck = null;
             NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
 
@@ -309,10 +305,10 @@ namespace CiscoVPN
             //    else throw new Exception("Installation path of Cisco VPN Client not found");
             //}
 
-            DirectoryInfo installationDir = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + "\\Cisco\\Cisco AnyConnect VPN Client");
+            DirectoryInfo installationDir = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + "\\Cisco\\Cisco AnyConnect Secure Mobility Client");
             if (!installationDir.Exists)
             {
-                installationDir = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + "\\Cisco\\Cisco AnyConnect VPN Client");
+                installationDir = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + "\\Cisco\\Cisco AnyConnect Secure Mobility Client");
                 installationDir.Refresh();
                 if (!installationDir.Exists)
                 {
@@ -337,8 +333,8 @@ namespace CiscoVPN
             writer.Append(Environment.NewLine);
             if (isConnectionFile)
             {
-                writer.Append("timeout /t 10");
-                writer.Append(Environment.NewLine);
+                //writer.Append("timeout /t 10");
+                //writer.Append(Environment.NewLine);
                 //    writer.Append(string.Format("vpnclient connect {0} user {1} pwd {2}", pcfFileName, User, Password));
                 //writer.Append(string.Format("connect {0}", ConnectionHost));
                 //writer.Append(Environment.NewLine);

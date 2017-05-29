@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using CiscoVPN;
 using CiscoVPN;
 using VpnManager.Interface;
 using System.Text;
@@ -23,7 +23,7 @@ namespace ConsoleTest
             {
                 case "1":
                 //    Assembly assembly = Assembly.LoadFile(string.Format(Application.StartupPath + "\\{0}.dll", "WindowsVpn"));
-                    test = new CiscoVPN.CiscoVPN();
+                    test = new CiscoVPN.CiscoAnyConnect();
                     test.ConnectionEntry = "vpn.elettric80.it";
                     test.ConnectionHost = "vpn.elettric80.it";
                     test.User = "genitoni.m";
@@ -40,11 +40,11 @@ namespace ConsoleTest
 
             }
             Assembly assembly = Assembly.LoadFile(string.Format(Application.StartupPath + "\\{0}.dll", "WindowsVpn"));
-            test = new CiscoVPN.CiscoVPN();
+            test = new CiscoVPN.CiscoAnyConnect();
             test.ConnectionEntry = "vpn.elettric80.it";
-            test.ConnectionHost = "vpn.elettric80.it";
-            test.User = "genitoni.m";
-            test.Password = "fr5678tg";
+            test.ConnectionHost = "https://webvpn.niagarawater.com/E80_CON";
+            test.User = "XXXX";
+            test.Password = "XXXX";
             test.CreateConnection();
             test.Connect();
             Console.Read();
