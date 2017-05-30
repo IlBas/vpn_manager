@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VpnManager.Interface", "Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VpnManagerWPF", "VpnManagerWPF\VpnManagerWPF.csproj", "{E09DC359-3093-4B39-8BA9-D7162BF959F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CiscoAnyConnect", "ConsoleTest\CiscoAnyConnect\CiscoAnyConnect.csproj", "{D895FACE-5E96-4186-92E0-8DB99CA81E66}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,18 @@ Global
 		{E09DC359-3093-4B39-8BA9-D7162BF959F8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E09DC359-3093-4B39-8BA9-D7162BF959F8}.Release|x86.ActiveCfg = Release|Any CPU
 		{E09DC359-3093-4B39-8BA9-D7162BF959F8}.Release|x86.Build.0 = Release|Any CPU
+		{D895FACE-5E96-4186-92E0-8DB99CA81E66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D895FACE-5E96-4186-92E0-8DB99CA81E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D895FACE-5E96-4186-92E0-8DB99CA81E66}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D895FACE-5E96-4186-92E0-8DB99CA81E66}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D895FACE-5E96-4186-92E0-8DB99CA81E66}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D895FACE-5E96-4186-92E0-8DB99CA81E66}.Debug|x86.Build.0 = Debug|Any CPU
+		{D895FACE-5E96-4186-92E0-8DB99CA81E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D895FACE-5E96-4186-92E0-8DB99CA81E66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D895FACE-5E96-4186-92E0-8DB99CA81E66}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D895FACE-5E96-4186-92E0-8DB99CA81E66}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D895FACE-5E96-4186-92E0-8DB99CA81E66}.Release|x86.ActiveCfg = Release|Any CPU
+		{D895FACE-5E96-4186-92E0-8DB99CA81E66}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

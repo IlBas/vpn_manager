@@ -444,6 +444,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "WizardConnection";
+            this.Load += new System.EventHandler(this.WizardConnection_Load);
             this.wizard1.ResumeLayout(false);
             this.wizardPage1.ResumeLayout(false);
             this.wizardPage2.ResumeLayout(false);

@@ -33,5 +33,6 @@ namespace VpnManagerDAL
         public DbSet<ConnectionType> ConnectionType { get; set; }
         public DbSet<ExtensionObjects> ExtensionObjects { get; set; }
         public DbSet<LogConenction> LogConenction { get; set; }
+        public DbSet<Logger> Logger { get; set; }
     }
 }

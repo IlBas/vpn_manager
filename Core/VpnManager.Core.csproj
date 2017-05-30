@@ -52,6 +52,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ConsoleTest\CiscoAnyConnect\CiscoAnyConnect.csproj">
+      <Project>{d895face-5e96-4186-92e0-8db99ca81e66}</Project>
+      <Name>CiscoAnyConnect</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CoreInterface\VpnManager.Interface.csproj">
       <Project>{118aff2c-3572-4d98-aa9c-c554eb7435b5}</Project>
       <Name>VpnManager.Interface</Name>

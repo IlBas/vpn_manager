@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'E:\Projects\Vpn\vpn_manager\VpnManagerDAL\VpnManagerEntity.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\genitoni.m\Source\Repos\vpn_manager\vpn_manager\VpnManagerDAL\VpnManagerEntity.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

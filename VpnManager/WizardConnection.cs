@@ -146,5 +146,10 @@ namespace VpnManager
         {
             this.Close();
         }
+
+        private void WizardConnection_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

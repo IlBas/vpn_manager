@@ -23,23 +23,16 @@ namespace ConsoleTest
             {
                 case "1":
                 //    Assembly assembly = Assembly.LoadFile(string.Format(Application.StartupPath + "\\{0}.dll", "WindowsVpn"));
-                    test = new CiscoVPN.CiscoAnyConnect();
-                    test.ConnectionEntry = "vpn.elettric80.it";
-                    test.ConnectionHost = "vpn.elettric80.it";
-                    test.User = "genitoni.m";
-                    test.Password = "fr5678tg";
+                  
                     break;
                 case "2":
                   
-                    //test.ConnectionEntry = "vpn.pregel.com";
-                    //test.ConnectionHost = "vpn.pregel.com";
-                    //test.User = "pregel.it\\user1e80";
-                    //test.Password = "1q2w3e4";
+                 
                     break;
 
 
             }
-            Assembly assembly = Assembly.LoadFile(string.Format(Application.StartupPath + "\\{0}.dll", "WindowsVpn"));
+        //    Assembly assembly = Assembly.LoadFile(string.Format(Application.StartupPath + "\\{0}.dll", "WindowsVpn"));
             test = new CiscoVPN.CiscoAnyConnect();
             test.ConnectionEntry = "vpn.elettric80.it";
             test.ConnectionHost = "https://webvpn.niagarawater.com/E80_CON";

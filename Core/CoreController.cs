@@ -107,13 +107,13 @@ namespace VpnManager.Core
         {
             if (_connetion != null)
             {
-                _Connected = false;
+               // _Connected = false;
                 OnInfoFromCore("Controller: Disconnetcing..... ", false);
-                ConnectToClient = null;
+              //  ConnectToClient = null;
                 _connetion.Disconnect();
-                _connetion = null;
+             //   _connetion = null;
                 Log.ConncetionSuccesful = true;
-                VpnManagerDal.UpdateLog(Log);
+             //   VpnManagerDal.UpdateLog(Log);
             }
             else
                 OnInfoFromCore("Controller: You're not Connected to any VPN!", false);
@@ -131,13 +131,17 @@ namespace VpnManager.Core
                 if (ConnectToClient != null)
                 {
                     OnInfoFromCore(String.Format("Connecting To {0}", ConnectToClient.Name), false);
-                    InitializeAssmebly(vpntype.Name);
-                   
+
+                    if (!System.Diagnostics.Debugger.IsAttached)
+                        InitializeAssmebly(vpntype.Name);
+                    else
+                        _connetion = new CiscoVPN.CiscoAnyConnect();
+
                     if (_connetion != null)
                     {
                          Log = new LogConenction();
                         Log.Id_ConnectionPlant = IDClient;
-                        Log.UserName = Security.LoggedUser.ActualUser != null ?  Security.LoggedUser.ActualUser.user : "Baypass Active";
+                        Log.UserName = !_BypassMSAutantication ?  Security.LoggedUser.ActualUser.user : "Baypass Active";
                         Log.VirtualMachineName = ComputerName;
                         Log.LastConenctionTime = DateTime.Now;
                         VpnManagerDal.AddLog(Log);
@@ -172,7 +176,12 @@ namespace VpnManager.Core
             if (state == eConnectionState.Disconnected)
             {
                 _connetion = null;
-              
+                ConnectToClient = null;
+                _Connected = false;
+                Log.ConncetionSuccesful = true;
+                VpnManagerDal.UpdateLog(Log);
+                tTimeout.Abort();
+                tTimeout = null;
             }
             else if (state == eConnectionState.Connected)
                 _Connected = true;
@@ -185,9 +194,9 @@ namespace VpnManager.Core
             while (starttimeout.AddMinutes(1) > DateTime.Now)
             {
                 Thread.Sleep(10000);
-                if (_Connected)
-                    continue;
-                ConnectionChanged(eConnectionState.Connecting);
+                if (_Connected )
+                    continue;                
+              //  ConnectionChanged(eConnectionState.Connecting);
                 Thread.Sleep(10000);
            
                

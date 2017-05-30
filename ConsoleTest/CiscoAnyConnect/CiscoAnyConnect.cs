@@ -63,18 +63,19 @@ namespace CiscoVPN
             var host = ConnectionHost;
             var profile = ConnectionEntry;
             var user = User;
-            var pass = Password;     
+            var pass = Password;
 
-             p = new Process
+            p = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = file,
-                   Arguments = string.Format("-s"),
+                    Arguments = string.Format("-s"),
                     UseShellExecute = false,
                     RedirectStandardInput = true,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
+                    CreateNoWindow = true
                 }
             };
 
@@ -106,12 +107,15 @@ namespace CiscoVPN
             p.StandardInput.Flush();
             p.StandardInput.WriteLine(Password);
             p.StandardInput.Flush();
+            activated = true;
+            threadConnectionCheck = new Thread(new ThreadStart(checkStatus));
+            threadConnectionCheck.Start();
         }
 
         void p_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-              
-            Console.WriteLine(e.Data.ToString());           
+             //if (e.Data != null)
+             //   Console.WriteLine(e.Data.ToString());           
         
 
         }
@@ -135,13 +139,13 @@ namespace CiscoVPN
                 nicFound = false;
                 foreach (NetworkInterface nic in nics)
                 {
-                    if (nic.Description.Contains("Cisco System"))
+                    if (nic.Description.Contains("Cisco AnyConnect"))
                     {
                         nicFound = true;
 
-                        Ping p = new Ping();
-                        PingReply reply = p.Send(nic.GetIPProperties().DnsAddresses[0], 2000);
-                        if (reply.Status == IPStatus.Success)
+                      //  Ping p = new Ping();
+                     //   PingReply reply = p.Send(nic.GetIPProperties().DnsAddresses[0], 2000);
+                        if (nic.OperationalStatus == OperationalStatus.Up)
                         {
 
                             firstConnection = false;
@@ -237,35 +241,34 @@ namespace CiscoVPN
 
         public void Disconnect()
         {
-            p.StandardInput.WriteLine("disconncet");
-            p.StandardInput.Flush();
-            p.WaitForExit();
- 
-            threadConnectionCheck = null;
-            NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
+           
+            // p.WaitForExit();
+            activated = false;
+            if (threadConnectionCheck != null)
+                threadConnectionCheck = null;
 
-            nicFound = false;
-            foreach (NetworkInterface nic in nics)
+           
+        
+            while (true)
             {
-                if (nic.Description.Contains("Cisco System")) nicFound = true;
-
-            }
-
-            if (!nicFound)
-            {
-
-                if (ConnectionStatusChanged != null)
+                NetworkInterface Nc = NetworkInterface.GetAllNetworkInterfaces()
+                    .Where(i => i.Description.Contains("Cisco AnyConnect")).FirstOrDefault();
+                if (Nc != null && Nc.OperationalStatus == OperationalStatus.Up)
                 {
-                    ConnectionStatusChanged(eConnectionState.Disconnected);
-
-                    connected = false;
-
-
+                    p.StandardInput.WriteLine("d");
+                    p.StandardInput.Flush();
+                    Thread.Sleep(1000);
                 }
-
-
-
+                else
+                    break;
             }
+            ConnectionStatusChanged(eConnectionState.Disconnected);
+            connected = false;
+               
+
+            
+
+
 
 
 

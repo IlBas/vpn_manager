@@ -73,6 +73,9 @@
     <Compile Include="LogConenction.cs">
       <DependentUpon>VpnManagerEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="Logger.cs">
+      <DependentUpon>VpnManagerEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Machine.cs">
       <DependentUpon>VpnManagerEntity.tt</DependentUpon>
     </Compile>
