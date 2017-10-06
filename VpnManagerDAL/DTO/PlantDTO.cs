@@ -16,7 +16,8 @@ namespace VpnManagerDAL.DTO
         public string Password { get; set; }
         public DateTime LastSuccessfullConnection { get; set; }
         public int IdLastConnectedUser { get; set; }
-        internal IEnumerable<ExtensionObjectDTO> ExtensionCollection
+        public List<string> WorkOnMachines  { get; set; }
+    internal IEnumerable<ExtensionObjectDTO> ExtensionCollection
         {
             get;
             set;

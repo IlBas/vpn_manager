@@ -29,6 +29,7 @@ namespace VpnManager
         private string ComputerName;
         Panel pnl = new Panel();
         private bool connected = false;
+        private bool ShowOnlyWorkOnMachine = false;
        
       //  Logger logger = LogManager.GetLogger("Form");
         public Main()
@@ -51,20 +52,40 @@ namespace VpnManager
             if (treeClienti.Nodes[0].Nodes.Count > 0)
                 treeClienti.Nodes[0].Nodes.Clear();
 
-            foreach (VpnManagerDAL.DTO.PlantDTO client in _controller.GetCLient.Values.OrderBy(o => o.Name))
+            if (!ShowOnlyWorkOnMachine)
             {
-             
-                DevComponents.AdvTree.Node node = new DevComponents.AdvTree.Node();
-                node.Text = client.DisplayedName;
-               // node.Image = Properties.Resources.Modem_icon;
-                node.Tag = client.Id;
-                node.Editable = false;
-                node.DragDropEnabled = false;
-                node.NodeDoubleClick += new EventHandler(node_NodeDoubleClick); //new EventHandler(lstClient_DoubleClick);
-                node.Tooltip = String.Format("Right Click -> Connect to start the connection with {0}", client.Name);
-                treeClienti.Nodes[0].Nodes.Add(node);
-             
+                foreach (VpnManagerDAL.DTO.PlantDTO client in _controller.GetCLient.Values.OrderBy(o => o.Name))
+                {
 
+                    DevComponents.AdvTree.Node node = new DevComponents.AdvTree.Node();
+                    node.Text = client.DisplayedName;
+                    // node.Image = Properties.Resources.Modem_icon;
+                    node.Tag = client.Id;
+                    node.Editable = false;
+                    node.DragDropEnabled = false;
+                    node.NodeDoubleClick += new EventHandler(node_NodeDoubleClick); //new EventHandler(lstClient_DoubleClick);
+                    node.Tooltip = String.Format("Right Click -> Connect to start the connection with {0}", client.Name);
+                    treeClienti.Nodes[0].Nodes.Add(node);
+
+
+                }
+            }
+            else
+            {
+                foreach (VpnManagerDAL.DTO.PlantDTO client in _controller.GetCLient.Values.Where(m => m.WorkOnMachines.Contains(_controller.GetComputerName)).OrderBy(o => o.Name))
+                {
+
+                    DevComponents.AdvTree.Node node = new DevComponents.AdvTree.Node();
+                    node.Text = client.DisplayedName;
+                    // node.Image = Properties.Resources.Modem_icon;
+                    node.Tag = client.Id;
+                    node.Editable = false;
+                    node.DragDropEnabled = false;
+                    node.NodeDoubleClick += new EventHandler(node_NodeDoubleClick); //new EventHandler(lstClient_DoubleClick);
+                    node.Tooltip = String.Format("Right Click -> Connect to start the connection with {0}", client.Name);
+                    treeClienti.Nodes[0].Nodes.Add(node);
+
+                }
             }
         }
 

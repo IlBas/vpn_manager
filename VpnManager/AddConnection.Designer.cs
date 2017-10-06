@@ -78,6 +78,7 @@
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.machineDTOBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtExtName = new System.Windows.Forms.ComboBox();
             this.rdPlant = new System.Windows.Forms.RadioButton();
             this.rdExtMachine = new System.Windows.Forms.RadioButton();
             this.labelX13 = new DevComponents.DotNetBar.LabelX();
@@ -91,7 +92,6 @@
             this.targetTableDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.targetIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.extensionObjectDTOBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.txtExtName = new System.Windows.Forms.ComboBox();
             this.grpPlant.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vpnTypeDTOBindingSource)).BeginInit();
             this.grpMachine.SuspendLayout();
@@ -523,6 +523,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(6, 121);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(575, 119);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -645,6 +646,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Extension";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // txtExtName
+            // 
+            this.txtExtName.FormattingEnabled = true;
+            this.txtExtName.Items.AddRange(new object[] {
+            "Note"});
+            this.txtExtName.Location = new System.Drawing.Point(5, 60);
+            this.txtExtName.Name = "txtExtName";
+            this.txtExtName.Size = new System.Drawing.Size(162, 21);
+            this.txtExtName.TabIndex = 15;
             // 
             // rdPlant
             // 
@@ -771,16 +782,6 @@
             // extensionObjectDTOBindingSource
             // 
             this.extensionObjectDTOBindingSource.DataSource = typeof(VpnManagerDAL.DTO.ExtensionObjectDTO);
-            // 
-            // txtExtName
-            // 
-            this.txtExtName.FormattingEnabled = true;
-            this.txtExtName.Items.AddRange(new object[] {
-            "Note"});
-            this.txtExtName.Location = new System.Drawing.Point(5, 60);
-            this.txtExtName.Name = "txtExtName";
-            this.txtExtName.Size = new System.Drawing.Size(162, 21);
-            this.txtExtName.TabIndex = 15;
             // 
             // AddConnection
             // 

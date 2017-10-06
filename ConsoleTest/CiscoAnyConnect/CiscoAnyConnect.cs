@@ -283,7 +283,7 @@ namespace CiscoVPN
 
             //}
             //else throw new Exception("pcf_file_name is not configured");
-            WriteFile(true);
+            //WriteFile(true);
 
         }
         private void WriteFile(bool isConnectionFile)

@@ -112,6 +112,7 @@ namespace VpnManagerDAL
                 string tbName = TargetTable.Plant.ToString();
                 retVal = (from p in entities.Plant
                           orderby p.Name
+                          
                           select new PlantDTO
                           {
                               Id = p.Id,
@@ -144,7 +145,8 @@ namespace VpnManagerDAL
                                                                      })
 
                                           }),
-                              ExtensionCollection = (from eo in entities.ExtensionObjects
+                             //WorkOnMachines = p.VpnType.WorkOnMachine,
+                             ExtensionCollection = (from eo in entities.ExtensionObjects
                                                      where eo.IdTargetElement == p.Id && eo.TargetTableName == tbName
                                                      select new ExtensionObjectDTO
                                                      {
@@ -159,6 +161,12 @@ namespace VpnManagerDAL
             return retVal;
         }
 
+
+        public static List<string> GetVMWhereItWorks(VpnType vp )
+        {
+            string temp = vp.WorkOnMachine;
+            return temp.Split(';').ToList();
+        }
         /// <summary>
         /// Returns plants list
         /// </summary>

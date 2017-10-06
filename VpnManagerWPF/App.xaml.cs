@@ -20,9 +20,9 @@ namespace VpnManagerWPF
             Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(Application.Current);
 
             // now set the Green accent and dark theme
-            ThemeManager.ChangeAppStyle(Application.Current,
-                                        ThemeManager.GetAccent("Green"),
-                                        ThemeManager.GetAppTheme("BaseDark")); // or appStyle.Item1
+            //ThemeManager.ChangeAppStyle(Application.Current,
+            //                            ThemeManager.GetAccent("Green"),
+            //                            ThemeManager.GetAppTheme("BaseDark")); // or appStyle.Item1
 
             base.OnStartup(e);
         }

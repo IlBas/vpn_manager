@@ -16,6 +16,8 @@ using MahApps.Metro;
 using VpnManager.Interface;
 using VpnManager.Core;
 using Security;
+using System.Collections.ObjectModel;
+
 namespace VpnManagerWPF
 {
     /// <summary>
@@ -24,26 +26,32 @@ namespace VpnManagerWPF
     ///   public delegate void InternalEvent(string ConnectionInfo,bool test);
     public delegate void AddListBoxItemDelegate(object item);
     public delegate void InternalEvent(string ConnectionInfo, bool test);
-    public partial class MainWindow  : ISurface
+    public partial class MainView : ISurface
     {
         private Controller _controller;
         private int SelectedNodeConnection;
         private string ComputerName;
-      
+        public ObservableCollection<VpnManagerDAL.DTO.PlantDTO> Plant { get; set; }
         private bool connected = false;
-        public MainWindow()
+        public MainView()
         {
-            InitializeComponent();
-            _controller = new Controller(this);
-            LoadList();
-            Security.LoggedUser.Autanticated += new OnUserAutanticated(UserLogged);
-            Security.LoggedUser.Disconnected += new OnUserDisconnected(UserDisconnected);
+            try
+            {
+                InitializeComponent();
+                Plant = new ObservableCollection<VpnManagerDAL.DTO.PlantDTO>();
+                _controller = new Controller(this);
+                LoadList();
+                Security.LoggedUser.Autanticated += new OnUserAutanticated(UserLogged);
+                Security.LoggedUser.Disconnected += new OnUserDisconnected(UserDisconnected);
+            }
+            catch (Exception e)
+            { }
         }
 
         public event StartConnectionClient OnClientConnection;
         public event StartConnection OnConnection;
         public event Disconnect OnDisconnection;
-
+        List<VpnManagerDAL.DTO.PlantDTO> temp = new List<VpnManagerDAL.DTO.PlantDTO>();
         private void UserLogged(string s)
         {
             //lblLoggedUser.Text = string.Format("Logged User : {0}", s);
@@ -75,14 +83,18 @@ namespace VpnManagerWPF
         {
             //if (treeClienti.Nodes[0].Nodes.Count > 0)
             //    treeClienti.Nodes[0].Nodes.Clear();
-          
-            
             foreach (VpnManagerDAL.DTO.PlantDTO client in _controller.GetCLient.Values.OrderBy(o => o.Name))
             {
 
-                ClientList.Items.Add(client);
+                temp.Add(client);
 
             }
+            TestList.ItemsSource = temp;
+        }
+
+        private void ClientList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

@@ -9,6 +9,8 @@ namespace VpnManagerDAL.DTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
+
         internal IEnumerable<ExtensionObjectDTO> ExtensionCollection
         {
             get;

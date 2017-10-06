@@ -172,19 +172,23 @@ namespace VpnManager.Core
 
         private void _connetion_Info(eConnectionState state)
         {
-            ConnectionChanged(state);
-            if (state == eConnectionState.Disconnected)
+            try
             {
-                _connetion = null;
-                ConnectToClient = null;
-                _Connected = false;
-                Log.ConncetionSuccesful = true;
-                VpnManagerDal.UpdateLog(Log);
-                tTimeout.Abort();
-                tTimeout = null;
+                ConnectionChanged(state);
+                if (state == eConnectionState.Disconnected)
+                {
+                    _connetion = null;
+                    ConnectToClient = null;
+                    _Connected = false;
+                    Log.ConncetionSuccesful = true;
+                    VpnManagerDal.UpdateLog(Log);
+                    tTimeout.Abort();
+                    tTimeout = null;
+                }
+                else if (state == eConnectionState.Connected)
+                    _Connected = true;
             }
-            else if (state == eConnectionState.Connected)
-                _Connected = true;
+            catch { }
 
         }
 
