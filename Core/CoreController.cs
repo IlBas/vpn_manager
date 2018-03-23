@@ -6,7 +6,6 @@ using System.IO;
 using System.Text;
 using VpnManager.Interface;
 using System.Net;
-
 using System.Diagnostics;
 using Security;
 using System.Configuration;
@@ -66,6 +65,15 @@ namespace VpnManager.Core
             //srv = new Server();
             //srv.StartListener(3200);
            
+        }
+        
+        public Controller ()
+        {
+            LoadListClients();
+            ComputerName = Environment.MachineName;
+            CheckBaypassAutentication();
+          //  OnInfoFromCore("Controller: Controller Loaded!", false);
+            tTimeout = new Thread(new ThreadStart(CheckTimeoutConnetcion));
         }
 
         public string GetComputerName

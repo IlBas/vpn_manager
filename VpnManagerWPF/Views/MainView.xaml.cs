@@ -13,21 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace VpnManagerWPF
+namespace VpnManagerWPF.Views
 {
     /// <summary>
-    /// Interaction logic for Page1.xaml
+    /// Interaction logic for MainView.xaml
     /// </summary>
-    public partial class ConnectionPage : UserControl
+    public partial class MainView 
     {
-        public ConnectionPage()
+        public MainView()
         {
             InitializeComponent();
-        }
-
-        private void ClientList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }

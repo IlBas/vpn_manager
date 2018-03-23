@@ -43,6 +43,7 @@
             this.elementStyle1 = new DevComponents.DotNetBar.ElementStyle();
             this.elementStyle2 = new DevComponents.DotNetBar.ElementStyle();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtLastConnectionInfo = new System.Windows.Forms.TextBox();
             this.txtNote = new System.Windows.Forms.TextBox();
             this.plantDTOBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.ctMachine = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -73,7 +74,6 @@
             this.toolInfoMachine = new System.Windows.Forms.ToolTip(this.components);
             this.txtSearchClient = new System.Windows.Forms.TextBox();
             this.infoDtoBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.txtLastConnectionInfo = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.treeClienti)).BeginInit();
             this.mnuTree.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -230,6 +230,17 @@
             this.panel1.Size = new System.Drawing.Size(347, 419);
             this.panel1.TabIndex = 3;
             // 
+            // txtLastConnectionInfo
+            // 
+            this.txtLastConnectionInfo.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtLastConnectionInfo.Location = new System.Drawing.Point(3, 309);
+            this.txtLastConnectionInfo.Multiline = true;
+            this.txtLastConnectionInfo.Name = "txtLastConnectionInfo";
+            this.txtLastConnectionInfo.ReadOnly = true;
+            this.txtLastConnectionInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtLastConnectionInfo.Size = new System.Drawing.Size(341, 107);
+            this.txtLastConnectionInfo.TabIndex = 5;
+            // 
             // txtNote
             // 
             this.txtNote.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -332,7 +343,7 @@
             // visualizzaVersioneAssemblyToolStripMenuItem
             // 
             this.visualizzaVersioneAssemblyToolStripMenuItem.Name = "visualizzaVersioneAssemblyToolStripMenuItem";
-            this.visualizzaVersioneAssemblyToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
+            this.visualizzaVersioneAssemblyToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.visualizzaVersioneAssemblyToolStripMenuItem.Text = "Visualizza Versione Assembly";
             this.visualizzaVersioneAssemblyToolStripMenuItem.Click += new System.EventHandler(this.visualizzaVersioneAssemblyToolStripMenuItem_Click);
             // 
@@ -341,7 +352,7 @@
             this.fileTransefrToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openClientToolStripMenuItem});
             this.fileTransefrToolStripMenuItem.Name = "fileTransefrToolStripMenuItem";
-            this.fileTransefrToolStripMenuItem.Size = new System.Drawing.Size(89, 20);
+            this.fileTransefrToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
             this.fileTransefrToolStripMenuItem.Text = "File Transefer";
             // 
             // openClientToolStripMenuItem
@@ -419,15 +430,16 @@
             // 
             this.lblStatus.Image = global::VpnManager.Properties.Resources.unlocked;
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(198, 17);
+            this.lblStatus.Size = new System.Drawing.Size(187, 17);
             this.lblStatus.Spring = true;
             this.lblStatus.Text = "Not Connected";
+            this.lblStatus.Click += new System.EventHandler(this.lblStatus_Click);
             // 
             // lblLoggedUser
             // 
             this.lblLoggedUser.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedOuter;
             this.lblLoggedUser.Name = "lblLoggedUser";
-            this.lblLoggedUser.Size = new System.Drawing.Size(198, 17);
+            this.lblLoggedUser.Size = new System.Drawing.Size(187, 17);
             this.lblLoggedUser.Spring = true;
             this.lblLoggedUser.Text = "No user logged";
             this.lblLoggedUser.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -435,7 +447,7 @@
             // lblComputerName
             // 
             this.lblComputerName.Name = "lblComputerName";
-            this.lblComputerName.Size = new System.Drawing.Size(198, 17);
+            this.lblComputerName.Size = new System.Drawing.Size(187, 17);
             this.lblComputerName.Spring = true;
             this.lblComputerName.Text = "ComputerName";
             // 
@@ -472,17 +484,6 @@
             // infoDtoBindingSource1
             // 
             this.infoDtoBindingSource1.DataSource = typeof(VpnManager.Core.DTO.InfoDto);
-            // 
-            // txtLastConnectionInfo
-            // 
-            this.txtLastConnectionInfo.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txtLastConnectionInfo.Location = new System.Drawing.Point(3, 309);
-            this.txtLastConnectionInfo.Multiline = true;
-            this.txtLastConnectionInfo.Name = "txtLastConnectionInfo";
-            this.txtLastConnectionInfo.ReadOnly = true;
-            this.txtLastConnectionInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLastConnectionInfo.Size = new System.Drawing.Size(341, 107);
-            this.txtLastConnectionInfo.TabIndex = 5;
             // 
             // Main
             // 

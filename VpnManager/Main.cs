@@ -311,8 +311,7 @@ namespace VpnManager
 
         private void disconnettiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (OnDisconnection != null)
-                OnDisconnection();
+            OnDisconnection?.Invoke();
         }
 
         private void treeClienti_NodeClick(object sender, DevComponents.AdvTree.TreeNodeMouseEventArgs e)
@@ -478,6 +477,7 @@ namespace VpnManager
                 if ((string)item == "Connected")
                 {
                     lblStatus.Image = Properties.Resources.locked;
+                    lblStatus.ForeColor = Color.Red;
                     foreach (DevComponents.AdvTree.Node node in treeClienti.Nodes[0].Nodes)
                         if (node.Index != (SelectedNodeConnection - 1))
                             node.Visible = false;
@@ -510,6 +510,7 @@ namespace VpnManager
                 }
                 else if ((string)item == "Disconneted")
                 {
+
                     foreach (DevComponents.AdvTree.Node node in treeClienti.Nodes[0].Nodes)                       
                         node.Visible = true;
 
@@ -521,12 +522,42 @@ namespace VpnManager
                     treeClienti.Nodes[0].Nodes[0].Nodes.Clear();
                     treeClienti.SelectedNode.Style = null;
                     lblStatus.Image = Properties.Resources.unlocked;
+                    lblStatus.BackColor = Color.Transparent;
                     connected = false;
                   
                 }
                 else if ((string)item == "Connecting")
                 {
+                    //lblStatus.Image = Properties.Resources.locked;
+                    lblStatus.BackColor = Color.Orange;
+                    foreach (DevComponents.AdvTree.Node node in treeClienti.Nodes[0].Nodes)
+                        if (node.Index != (SelectedNodeConnection - 1))
+                            node.Visible = false;
 
+                    foreach (DevComponents.AdvTree.Node node in treeClienti.Nodes[0].Nodes)
+                        if (node.Nodes.Count > 0)
+                            node.Nodes.Clear();
+
+                  
+                    List<VpnManagerDAL.DTO.MachineDTO> Info = null;
+                    Info = _controller.GetCLient[Convert.ToInt32(treeClienti.SelectedNode.Tag)].Machines.ToList(); //VpnManagerDAL.VpnManagerDal.GetMachinesByPlant(Convert.ToInt32(treeClienti.SelectedNode.Tag));
+
+                    foreach (VpnManagerDAL.DTO.MachineDTO infomachine in Info)
+                    {
+                        string temp;
+
+                        DevComponents.AdvTree.Node node = new DevComponents.AdvTree.Node();
+                        node.Text = infomachine.Name + " - " + infomachine.IPAddress;
+                        node.Image = Properties.Resources.monitor;
+                        node.Tag = infomachine.Id;
+                        node.Editable = false;
+                        node.DragDropEnabled = false;
+                        node.NodeDoubleClick += new EventHandler(ConnectMachine);
+                        node.NodeClick += null;
+                        node.Tooltip = string.Format(@"User : {0} Password : {1}", infomachine.Username, infomachine.Password);
+                        treeClienti.Nodes[0].Nodes[SelectedNodeConnection - 1].Nodes.Add(node);
+
+                    }
                 }
 
             }
@@ -701,9 +732,11 @@ namespace VpnManager
 
         }
 
-
-
-       
+        private void lblStatus_Click(object sender, EventArgs e)
+        {
+            if (connected)
+                OnDisconnection?.Invoke();
+        }
     }
 
 }

@@ -92,6 +92,7 @@
             this.targetTableDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.targetIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.extensionObjectDTOBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.button3 = new System.Windows.Forms.Button();
             this.grpPlant.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vpnTypeDTOBindingSource)).BeginInit();
             this.grpMachine.SuspendLayout();
@@ -106,6 +107,7 @@
             // 
             // grpPlant
             // 
+            this.grpPlant.Controls.Add(this.button3);
             this.grpPlant.Controls.Add(this.cmbCustomer);
             this.grpPlant.Controls.Add(this.button1);
             this.grpPlant.Controls.Add(this.cmdNext);
@@ -783,6 +785,16 @@
             // 
             this.extensionObjectDTOBindingSource.DataSource = typeof(VpnManagerDAL.DTO.ExtensionObjectDTO);
             // 
+            // button3
+            // 
+            this.button3.Image = global::VpnManager.Properties.Resources.plus;
+            this.button3.Location = new System.Drawing.Point(75, 19);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(26, 23);
+            this.button3.TabIndex = 16;
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // AddConnection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -882,5 +894,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ComboBox cmbCustomer;
         private System.Windows.Forms.ComboBox txtExtName;
+        private System.Windows.Forms.Button button3;
     }
 }

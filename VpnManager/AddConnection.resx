@@ -120,6 +120,12 @@
   <metadata name="vpnTypeDTOBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>290, 56</value>
   </metadata>
+  <metadata name="vpnTypeDTOBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>290, 56</value>
+  </metadata>
+  <metadata name="connectionTypeDTOBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>692, 56</value>
+  </metadata>
   <metadata name="connectionTypeDTOBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>692, 56</value>
   </metadata>

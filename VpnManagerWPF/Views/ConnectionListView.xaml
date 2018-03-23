@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="VpnManagerWPF.Views.ConnectionListView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:VpnManagerWPF.Views"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:Dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro" 
+    xmlns:cal="http://www.caliburnproject.org"
+    mc:Ignorable="d" 
+     d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid>
+        <ListBox ItemsSource="{Binding Connections}" FlowDirection="LeftToRight">
+            <ListBox.ItemTemplate>
+                <DataTemplate >
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Column="0"
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Margin="0,0,10,0">
+                            <Image Source="pack://application:,,,/Images/Default.png"
+                       Stretch="Fill"
+                       Height="40"
+                       Width="40"></Image>
+                        </Border>
+                        <TextBlock Text="{Binding Path=Name}"
+                       FontWeight="Bold"
+                       Grid.Column="1"
+                       Grid.Row="0"></TextBlock>
+                        <Button Content="Info And Connect" cal:Message.Attach="[EventClick] = [Action OpenInfo($executionContext)]"
+                       Grid.Column="1"
+                       Grid.Row="1"></Button>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+    
+
+</UserControl>

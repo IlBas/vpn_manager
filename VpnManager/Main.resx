@@ -118,46 +118,46 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <metadata name="styleManager1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+    <value>124, 17</value>
   </metadata>
   <metadata name="mnuTree.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>552, 17</value>
+    <value>659, 17</value>
   </metadata>
   <metadata name="plantDTOBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1172, 17</value>
+    <value>1279, 17</value>
   </metadata>
   <metadata name="ctMachine.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1355, 17</value>
+    <value>1462, 17</value>
   </metadata>
   <metadata name="machineDTOBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>971, 17</value>
+    <value>1078, 17</value>
   </metadata>
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>149, 17</value>
+    <value>256, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="nuovaConnessioneToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAAEvSURBVDhPjZJBEoMgDEXZex8PUAFtz+iGHqa3cIen0NH+
-        n4C1QmeambQE80L4xFztdrOt8/3YWTdZ61bnejrWnnttSiutHx6N80Owzm8AdzpA8RzrNx/gTcLUCPv+
-        /kLCkVyBU4wc519fRdAyT/4Plj3++yAw74yEatshPMWvsMRgug6aULAaDMH2eZ73GOcanOPRJLULmEkx
-        RikicQELMxks+EwHzJb15LgvyyKeO+G3E0xfDX8ynAswmVAukDvJBRLMtRSQK4if1P5oEGVfr1FclVfw
-        KuIJ1oLUQDupwRLjAQyfAvB2hRmz5Urb6mA4AjILADieXzA7yskVGKcPOkg0QA02OZ5/wRx7jn/C1aQI
-        O/kxlQneOPYFfDYI1qLQCHCCrwBXqk3BjjsfZswbO/OtPCFadKEAAAAASUVORK5CYII=
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        vAAADrwBlbxySQAAAS9JREFUOE+NkkESgyAMRdl7Hw9QAW3P6IYeprdwh6fQ0f6fgLVCZ5qZtATzQvjE
+        XO12s63z/dhZN1nrVud6Otaee21KK60fHo3zQ7DObwB3OkDxHOs3H+BNwtQI+/7+QsKRXIFTjBznX19F
+        0DJP/g+WPf77IDDvjIRq2yE8xa+wxGC6DppQsBoMwfZ5nvcY5xqc49EktQuYSTFGKSJxAQszGSz4TAfM
+        lvXkuC/LIp474bcTTF8NfzKcCzCZUC6QO8kFEsy1FJAriJ/U/mgQZV+vUVyVV/Aq4gnWgtRAO6nBEuMB
+        DJ8C8HaFGbPlStvqYDgCMgsAOJ5fMDvKyRUYpw86SDRADTY5nn/BHHuOf8LVpAg7+TGVCd449gV8NgjW
+        otAIcIKvAFeqTcGOOx9mzBs78608IVp0oQAAAABJRU5ErkJggg==
 </value>
   </data>
   <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>436, 17</value>
+    <value>543, 17</value>
   </metadata>
   <metadata name="infoDtoBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>264, 17</value>
+    <value>371, 17</value>
   </metadata>
   <metadata name="toolInfoMachine.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>830, 17</value>
+    <value>937, 17</value>
   </metadata>
   <metadata name="infoDtoBindingSource1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>652, 17</value>
+    <value>759, 17</value>
   </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
