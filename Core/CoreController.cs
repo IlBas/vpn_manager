@@ -128,7 +128,7 @@ namespace VpnManager.Core
         }
 
 
-        private void Connect(int IDClient)
+        public void Connect(int IDClient)
         {
           
             if (_connetion == null)

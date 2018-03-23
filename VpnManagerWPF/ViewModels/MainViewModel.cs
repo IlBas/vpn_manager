@@ -80,7 +80,11 @@ namespace VpnManagerWPF.ViewModels
 
         public void ChangeConnectionStatus(eConnectionState State)
         {
-            throw new NotImplementedException();
+            if (State == eConnectionState.Connecting)
+                WaitingProgressVisibility = Visibility.Visible;
+            else
+                WaitingProgressVisibility = Visibility.Hidden;
+
         }
 
         public void Handle(Screen message)

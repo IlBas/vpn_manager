@@ -40,10 +40,13 @@
             <RowDefinition Height="280*"/>
             <RowDefinition Height="71*"/>
         </Grid.RowDefinitions>
-        <ContentControl x:Name="ActiveItem"  Grid.Row="1" Grid.RowSpan="2" Margin="0,5,0,0" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
-        <Controls:ProgressRing HorizontalAlignment="Stretch" Grid.ZIndex="3"  Height="Auto" Width="Auto" IsActive="True" Visibility="{Binding WaitingProgressVisibility}" Foreground="Black" Margin="113,20,113,30" Grid.Row="1" VerticalAlignment="Stretch" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
+        <DockPanel  Grid.Row="1" >
+            <ContentControl x:Name="ActiveItem" Grid.RowSpan="2" Margin="0,5,0,0" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
+        </DockPanel>
 
-        <ListView Grid.Row="2" Name="logView" ItemsSource="{Binding Info}" BorderBrush="Black" BorderThickness="3,5,5,5" Focusable="False" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+        <Controls:ProgressRing HorizontalAlignment="Stretch" Grid.ZIndex="3"  Height="Auto" Width="Auto" IsActive="True" Visibility="{Binding WaitingProgressVisibility}" Foreground="Black" Margin="113,20,113,30" Grid.Row="1" VerticalAlignment="Stretch" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
+        <DockPanel Grid.Row="2" >
+            <ListView Name="logView" ItemsSource="{Binding Info}" BorderBrush="Black" BorderThickness="3,5,5,5" Focusable="False" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
             <ListView.Effect>
                 <DropShadowEffect/>
             </ListView.Effect>
@@ -60,6 +63,8 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
+        </DockPanel>
+
     </Grid>
 
 

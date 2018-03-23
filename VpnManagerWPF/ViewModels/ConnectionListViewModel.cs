@@ -14,12 +14,14 @@ using VpnManagerWPF.Views;
 
 namespace VpnManagerWPF.ViewModels
 {
-    public class ConnectionListViewModel :Screen
+    public class ConnectionListViewModel : Conductor<Screen>.Collection.OneActive
     {
         IEventAggregator _events;
         Controller _controller;
         private Visibility _WaitingProgressVisibility = Visibility.Hidden;
         private IList<PlantDTO> _plant;
+
+
 
         public ConnectionListViewModel(Controller controller , IEventAggregator eventAggregator)
         {
@@ -68,9 +70,10 @@ namespace VpnManagerWPF.ViewModels
             }
         }
 
-        public void OpenInfo(ActionExecutionContext context)
+        public void OpenInfo(PlantDTO context)
         {
-            _events.PublishOnUIThread(new ClientConnectionViewModel());
+
+            _events.PublishOnUIThread(new ClientConnectionViewModel(Controller,context,_events));
 
         }
     }

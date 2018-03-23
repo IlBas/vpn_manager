@@ -11,7 +11,7 @@
      d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
-        <ListBox ItemsSource="{Binding Connections}" FlowDirection="LeftToRight">
+        <ListBox ItemsSource="{Binding Connections}" FlowDirection="LeftToRight" SelectedItem="{Binding PlantDto}" >
             <ListBox.ItemTemplate>
                 <DataTemplate >
                     <Grid Margin="5">
@@ -36,11 +36,13 @@
                        FontWeight="Bold"
                        Grid.Column="1"
                        Grid.Row="0"></TextBlock>
-                        <Button Content="Info And Connect" cal:Message.Attach="[EventClick] = [Action OpenInfo($executionContext)]"
+                        <Button Content="Info And Connect" cal:Message.Attach="[EventClick] = [Action OpenInfo($datacontext)]"
                        Grid.Column="1"
                        Grid.Row="1"></Button>
                     </Grid>
+                    
                 </DataTemplate>
+                
             </ListBox.ItemTemplate>
         </ListBox>
     </Grid>
