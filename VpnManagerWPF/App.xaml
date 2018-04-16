@@ -19,7 +19,34 @@
 
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="VisibilityOfBool" />
-            
+            <!-- Converter -->
+           
+            <!-- Standard Button Colors-->
+            <SolidColorBrush x:Key="StandardButtonBackground" Color="#1C536F" />
+            <SolidColorBrush x:Key="StandardButtonForeground" Color="#FEFEFE" />
+            <SolidColorBrush x:Key="StandardButtonHighlight" Color="GreenYellow" />
+            <!-- Standard Button Template-->
+            <Style x:Key="StandardButton" TargetType="Button">
+                <Setter Property="Background" Value="{StaticResource StandardButtonBackground}" />
+                <Setter Property="Foreground" Value="{StaticResource StandardButtonForeground}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={StaticResource HeightToRadiusConverter}}"
+                                Background="{TemplateBinding Background}">
+                                <Border Margin="5" BorderThickness="2" BorderBrush="{StaticResource StandardButtonHighlight}"
+                                CornerRadius="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={StaticResource HeightToRadiusConverter}}">
+                                    <ContentPresenter Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+                                </Border>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
+     
+          
+     
     </Application.Resources>
+    
 </Application>

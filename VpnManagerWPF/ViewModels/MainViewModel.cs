@@ -23,7 +23,7 @@ namespace VpnManagerWPF.ViewModels
         public event StartConnection OnConnection;
         public event StartConnectionClient OnClientConnection;
         public event Disconnect OnDisconnection;
-
+        ConnectionListViewModel Home;
         private List<string> _Info = new List<string>();
         IEventAggregator _events = new EventAggregator();
         private Visibility _WaitingProgressVisibility = Visibility.Hidden;
@@ -32,8 +32,8 @@ namespace VpnManagerWPF.ViewModels
         {
             controller = new Controller(this);
             _events.Subscribe(this);
-            _events.PublishOnUIThread(new ConnectionListViewModel( controller,_events));
-
+            Home = new ConnectionListViewModel(controller, _events);
+            ActivateItem(Home);
         }
 
         public Controller Controller
@@ -87,6 +87,11 @@ namespace VpnManagerWPF.ViewModels
 
         }
 
+
+        public void GoHome()
+        {
+            ActivateItem(Home);
+        }
         public void Handle(Screen message)
         {
             ActivateItem(message);
@@ -94,7 +99,12 @@ namespace VpnManagerWPF.ViewModels
 
         public void WriteInfo(string s, bool Error)
         {
-            Info.Add(s);
+            if (Info.Count > 32000)
+                Info.Clear();
+            //logger.Trace(text);
+            Info.Add($"{DateTime.Now.ToString("dd/MM/yyyy HH:mm")} || {s}");
+             
+        
         }
     }
 }

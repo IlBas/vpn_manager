@@ -430,7 +430,7 @@
             // 
             this.lblStatus.Image = global::VpnManager.Properties.Resources.unlocked;
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(187, 17);
+            this.lblStatus.Size = new System.Drawing.Size(198, 17);
             this.lblStatus.Spring = true;
             this.lblStatus.Text = "Not Connected";
             this.lblStatus.Click += new System.EventHandler(this.lblStatus_Click);
@@ -439,7 +439,7 @@
             // 
             this.lblLoggedUser.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedOuter;
             this.lblLoggedUser.Name = "lblLoggedUser";
-            this.lblLoggedUser.Size = new System.Drawing.Size(187, 17);
+            this.lblLoggedUser.Size = new System.Drawing.Size(198, 17);
             this.lblLoggedUser.Spring = true;
             this.lblLoggedUser.Text = "No user logged";
             this.lblLoggedUser.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -447,7 +447,7 @@
             // lblComputerName
             // 
             this.lblComputerName.Name = "lblComputerName";
-            this.lblComputerName.Size = new System.Drawing.Size(187, 17);
+            this.lblComputerName.Size = new System.Drawing.Size(198, 17);
             this.lblComputerName.Spring = true;
             this.lblComputerName.Text = "ComputerName";
             // 
@@ -464,6 +464,7 @@
             this.lstConsole.Name = "lstConsole";
             this.lstConsole.Size = new System.Drawing.Size(590, 100);
             this.lstConsole.TabIndex = 6;
+            this.lstConsole.SelectedIndexChanged += new System.EventHandler(this.lstConsole_SelectedIndexChanged);
             // 
             // toolInfoMachine
             // 

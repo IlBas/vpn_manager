@@ -737,6 +737,11 @@ namespace VpnManager
             if (connected)
                 OnDisconnection?.Invoke();
         }
+
+        private void lstConsole_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

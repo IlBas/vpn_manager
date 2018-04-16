@@ -11,13 +11,51 @@
     <Grid  >
         <Grid.RowDefinitions>
             <RowDefinition Height="377*"/>
-            <RowDefinition Height="73*"/>
+            <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
-        <StackPanel Background="Beige" Grid.Row="0">
-            <Image>
+        <DockPanel  Grid.Row="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <DockPanel HorizontalAlignment="Left" Grid.Row="0">
+                    <Image Source="pack://application:,,,/Images/Default.png" Margin="10,0,50,50"
+                           Stretch="Fill"
+                           Height="100"
+                           Width="100"></Image>
+                    
+                </DockPanel>
+                <DockPanel HorizontalAlignment="Center">
+                <TextBlock  Text="{Binding Plant.Name}" Margin="10,5,50,5">
 
-            </Image>
-        </StackPanel>
+                </TextBlock>
+                </DockPanel>
+                <DockPanel HorizontalAlignment="Left" Grid.Row="1">
+                    <ListBox  ItemsSource="{Binding Plant.Machines}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate >
+                                <DockPanel>
+                                    <Image  Source="pack://application:,,,/Images/RDP.png">
+                                        
+                                    </Image>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}"></TextBlock>
+                                        <TextBlock Text="{Binding IPAddress}"></TextBlock>
+                                    </StackPanel>
+                                </DockPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+                <Border Grid.Row="1" BorderThickness="1">
+                    <DockPanel   Grid.Row="1"  HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding Plant.}"
+                    </DockPanel>
+                </Border>
+
+            </Grid>
+        </DockPanel>
         <DockPanel Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -25,10 +63,18 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Content="Disconnect" BorderBrush="Black" 	cal:Message.Attach="[Event Click] = [Action Connect]"> </Button>
-                <Button Grid.Column="3" Content="Disconnect" BorderBrush="Black"	cal:Message.Attach="[Event Click] = [Action Disconnect]" ></Button>
-            </Grid>
 
+                <Button  Grid.Column="0"
+                         Content="Connect" 
+                         BorderBrush="Black" 	
+                         cal:Message.Attach="[Event Click] = [Action Connect]">
+
+                </Button>
+                <Button Grid.Column="3" 
+                        Content="Disconnect" 
+                        BorderBrush="Black"	
+                        cal:Message.Attach="[Event Click] = [Action Disconnect]" ></Button>
+            </Grid>
         </DockPanel>
     </Grid>
 </UserControl>
